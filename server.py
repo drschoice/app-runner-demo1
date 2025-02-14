@@ -15,7 +15,6 @@ PORT = 7777
 logger.info("======Loading configuration======")
 logger.info('CONFIG')
 logger.info(type(os.environ.get('CONFIG')))
-logger.info(os.environ.get('CONFIG'))
 
 class SimpleHandler(http.server.SimpleHTTPRequestHandler):
     def do_GET(self):
