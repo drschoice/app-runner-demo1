@@ -1,28 +1,9 @@
-import os
-import logging
-import http.server
-import socketserver
+import datetime
 
-logging.basicConfig(
-    level=logging.INFO,
-    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
-)
-
-logger = logging.getLogger(__name__)
-
-PORT = 7777
-
-logger.info("======Loading configuration======")
-logger.info('CONFIG')
-logger.info(type(os.environ.get('CONFIG')))
-
-class SimpleHandler(http.server.SimpleHTTPRequestHandler):
-    def do_GET(self):
-        self.send_response(200)
-        self.send_header("Content-type", "text/plain")
-        self.end_headers()
-        self.wfile.write(b"Hello, World!")
-
-with socketserver.TCPServer(("", PORT), SimpleHandler) as httpd:
-    print(f"Serving on port {PORT}")
-    httpd.serve_forever()
+def app(environ, start_response):
+    """WSGI application"""
+    status = '200 OK'
+    response_headers = [('Content-type', 'text/plain')]
+    start_response(status, response_headers)
+    time = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    return [b"Hello, World! the time is: %s" % time.encode('utf-8')]
